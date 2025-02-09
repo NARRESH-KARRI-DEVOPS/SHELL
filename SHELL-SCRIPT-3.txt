@@ -1,0 +1,687 @@
+what is a loop in SS?
+----------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+for Loop
+========
+
+syntax:
+-------
+for variable in list
+do
+    # Commands to execute for each item in the list
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 1:
+----------
+
+#!/bin/bash
+
+# Example of a for loop iterating over a list of numbers
+for num in 1 2 3 4 5
+do in.
+    echo "Number: $num"
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 2: Iterating over Files and directories in a Directory
+---------
+#!/bin/bash
+
+# Example of a for loop iterating over files in a directory
+echo "Files in current directory:"
+for file in *
+do
+    echo "$file"
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 3: Processing Arguments Passed to a Script
+----------
+#!/bin/bash
+
+# Example of a for loop iterating over script arguments
+echo "Arguments passed to the script:"
+for arg in "$@"
+do
+    echo "$arg"
+done
+
+
+
+
+
+
+
+
+
+
+
+Example 4:  Generating a Sequence of Numbers
+----------
+#!/bin/bash
+
+# Iterate 5 times
+echo "for loop example"
+for (( i=1; i<=5; i++ ))
+do
+    echo "Iteration: $i"
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 5: Nested for loop
+----------
+
+#!/bin/bash
+
+# Example of nested for loops to generate a multiplication table
+echo "Multiplication Table (1 to 5):"
+
+for (( i=1; i<=5; i++ ))
+do
+    echo "Multiplication table for $i:"
+    for (( j=1; j<=5; j++ ))
+    do
+        echo "$i * $j = $((i * j))"
+    done
+    echo "----------------------"
+done
+
+j++
+++j
+j--
+--j
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+6. while Loop
+-------------
+
+The while loop executes a block of code as long as a specified condition is true.
+
+Syntax:
+while [ condition ]; 
+do
+    # Code block to execute as long as condition is true
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 1: Counting Down from 5 to 1
+----------
+
+#!/bin/bash
+
+# Example of a while loop counting down from 5 to 1
+counter=5
+
+echo "Counting down:"
+while [$counter -gt 0]; do
+    echo "$counter"
+    (( counter-- ))
+done
+
+echo "you are a good automation engineer"
+
+
+
+
+
+
+
+
+
+
+
+
+Example 2: Reading Lines from a File
+----------
+
+#!/bin/bash
+
+# Example of a while loop reading lines from a file
+filename="Shell_Scripting_New.txt"
+
+echo "Contents of file:"
+while IFS= read -r line    #IFS: internal Field Separator
+do
+    echo "$line"
+done < "$filename"
+echo "you are a great"
+
+
+
+
+
+
+
+
+
+
+
+
+name
+====
+1.
+2.
+3.
+4.
+5.
+exit 
+
+
+Example 3: Processing User Input Until Exit
+----------
+#!/bin/bash
+
+# Example of a while loop processing user input until 'exit' is entered
+echo "Enter names (type 'exit' to quit):"
+
+while :
+do
+    read -p "Name: " name
+    if [ "$name" = "exit" ]; then
+        break
+    fi
+
+    echo "Hello --->$name!"
+
+done
+
+
+echo "you are exited"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 4: Calculating Factorial
+----------
+#!/bin/bash
+
+# Example of a while loop calculating factorial of a number
+echo "Enter a number to calculate its factorial:"
+read num
+
+if [ $num -gt 0 ]; then
+
+factorial=1
+counter=$num
+
+while [ $counter -gt 0 ]
+do
+    factorial=$(( factorial * counter ))
+    (( counter-- ))
+done
+
+echo "Factorial of $num is: $factorial"
+
+else
+
+echo "invalid input"
+
+fi
+
+
+
+
+
+
+
+
+
+7. until Loop
+-------------
+
+Example 1: Counting Up from 1 to 5
+----------
+
+#!/bin/bash
+
+# Example of an until loop counting up from 1 to 5
+counter=1
+
+echo "Counting up:"
+until [ $counter -gt 10 ]
+do
+    echo "$counter"
+    (( counter++ ))
+done
+
+echo "Done counting!"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Arrays in shell scripting
+=========================
+Def: arrays provide a convenient way to store and manipulate multiple values under a single variable name. 
+
+NOTE: Array values can be accessed by the index [0 to length-1]
+
+
+
+
+
+
+
+
+
+
+
+Declaring Arrays
+-----------------
+1. Implicit Declaration: 
+Arrays are implicitly declared when you assign values to indexed positions:
+
+name_array=("kk" "sai" "raghu")
+
+2. Explicit Declaration:
+ You can explicitly declare an array by using the declare built-in command:
+
+declare -a name_array
+name_array=("kk" "sai" "raghu")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Accessing Array Elements
+--------------------------
+To access individual elements of an array, you use the index (starting from 0):
+
+
+name_array=("kk" "sai" "raghu")
+echo "${name_array[0]}"  # prints "value1"
+echo "${name_array[1]}"  # prints "value2"
+echo "${name_array[2]}"  # prints "value3"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Array Operations
+----------------
+
+
+1. Appending Elements
+
+You can append elements to an array using the += operator:
+
+name_array=("kk" "sai" "raghu")
+
+name_array+=("jaswanth")
+
+
+
+
+
+
+
+
+
+2. Length of Array
+
+To find the length of an array, use ${#name_array[@]}
+
+name_array=("kk" "sai" "raghu")
+
+echo "Length of array: ${#name_array[@]}"  # prints the number of elements in the array
+
+
+
+
+
+
+
+
+
+
+
+
+
+3. Iterating Over an Array
+--------------------------
+
+You can iterate over all elements in an array using a loop:
+
+name_array=("kk" "sai" "raghu")
+for element in "${name_array[@]}"
+do
+    echo "$element"
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+4. Removing Elements
+
+You can unset individual elements by index:
+
+unset name_array[1]  # removes the element at index 1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5. Clearing an Array
+
+To clear all elements in an array:
+
+name_array=()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 1
+---------
+#!/bin/bash
+
+# Declare an array
+declare -a fruits=("Apple" "Banana" "Orange")
+
+# Print all elements
+echo "All fruits:"
+for fruit in "${fruits[@]}"
+do
+    echo "$fruit"
+done
+
+# Print length of array
+echo "Number of fruits: ${#fruits[@]}"
+
+# Append an element
+fruits+=("Grapes")
+
+# Print length of array
+echo "Number of fruits: ${#fruits[@]}"
+
+# Access individual element
+echo "First fruit: ${fruits[0]}"
+
+# Remove an element
+unset fruits[1]
+
+# Print updated array
+echo "Remaining fruits:"
+for fruit in "${fruits[@]}"
+do
+    echo "$fruit"
+done
+
+
+
+
+
+
+
+
+
+Example 2: Processing File Names
+----------
+#!/bin/bash
+
+# Declare an array to store file names
+declare -a files=()
+
+# Populate the array with file names ending in .txt in current directory
+files=(*.sh)
+
+# Iterate over each file and perform an operation (e.g., count lines)
+for file in "${files[@]}"
+do
+    line_count=$(wc -l < "$file")
+    echo "File: $file has $line_count lines."
+done
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 3: Processing Command-Line Arguments
+---------
+
+
+You might want to process command-line arguments passed to a script and store them in an array.
+
+#!/bin/bash
+
+# Store command-line arguments in an array
+args=("$@")
+
+# Print all arguments
+echo "All arguments:"
+for arg in "${args[@]}"
+do
+    echo "$arg"
+done
+
+echo "Length of array: ${#args[@]}"  # prints the number of elements in the array
+
+# Access individual argument
+echo "First argument: ${args[0]}"
+
+
+
+
+
+
+
+
+
+
+
+
+
+Example 4: Dynamic Menu with User Selection
+----------
+
+You might want to create a dynamic menu using an array of options and allow the user to select an option.
+
+#!/bin/bash
+
+# Array of menu options
+declare -a menu=("Option 1: l1.sh" "Option 2: l2.sh" "Option 3: Exit")
+
+# Display menu options
+echo "Select an option:"
+select option in "${menu[@]}"
+do
+    case $REPLY in
+        1)
+            sh l1.sh
+           ;;
+        2)
+             sh l2.sh
+            ;;
+        3)
+            echo "Exiting..."
+            break
+            ;;
+        *)
+            echo "Invalid option"
+            ;;
+    esac
+done

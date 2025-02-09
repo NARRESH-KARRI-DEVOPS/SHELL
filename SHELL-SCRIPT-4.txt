@@ -1,0 +1,421 @@
+functions in shell scripting
+=============================
+Def:
+Functions in shell scripting allow you to encapsulate reusable code blocks, improve code organization, and facilitate modular programming.
+
+Syntax of Defining Functions
+-----------------------------
+
+# Syntax 1: 
+
+function_name () {
+    # Commands to be executed
+    command1
+    command2
+    # ...
+}
+
+# Syntax 2: 
+
+function_name {
+    # Commands to be executed
+    command1
+    command2
+    # ...
+}
+
+Example:
+--------
+
+#!/bin/bash
+
+# Define a function that prints a greeting
+greet() {
+    echo "Hello, World!"
+}
+
+# Call the function
+greet
+pwd
+uptime
+greet
+
+Passing Parameters to Functions
+-------------------------------
+
+Functions in shell scripts can accept parameters similar to scripts. Parameters are accessed inside the function using positional parameters ($1, $2, ...) or the special variables ($@, $*). Here’s how you define and use a function with parameters:
+
+
+#!/bin/bash
+
+# Function with parameters
+greet_user() {
+    local name="$1"  # First parameter
+    echo "Hello, $name!"
+}
+
+# Call the function with an argument
+greet_user "Alice"
+
+
+Example of Using Parameters
+---------
+
+#!/bin/bash
+
+# Function to calculate the sum of two numbers
+sum() {
+    local num1="$1"
+    local num2="$2"
+    local total=$(( num1 + num2 ))
+    echo "Sum of $num1 and $num2 is: $total"
+}
+
+# Call the function with arguments
+sum 10 20
+
+
+Return Values
+-------------
+
+Shell functions do not have a traditional return statement like other programming languages. Instead, the return status of the last executed command is used as the return value of the function. To explicitly return a value, you can use echo or modify a global variable.
+
+Example
+--------
+
+#!/bin/bash
+
+# Function to calculate the square of a number and return it
+square() {
+    local num="$1"
+    local result=$(( num * num ))
+    echo "$result"  # Return the result
+}
+
+# Call the function and capture the returned value
+output=$(square 5)
+echo "Square of 5 is: $output"
+
+
+Local Variables and global variables and its Scope
+--------------------------
+
+Variables declared inside a function using local are scoped to the function and are not visible outside of it. 
+
+Example
+-------
+#!/bin/bash
+
+# Global variable
+global_var="Global"
+
+# Function using local variable
+demo_local_var() {
+    local local_var="Local"
+    echo "Inside function: local_var=$local_var, global_var=$global_var"
+}
+
+# Call the function
+demo_local_var
+
+# Accessing local_var outside function causes an error
+echo "Outside function: local_var=$local_var"
+
+
+Example
+--------
+
+#!/bin/bash
+
+# Function to print numbers from 1 to n
+print_numbers() {
+    local n="$1"
+    for (( i=1; i<=n; i++ ))
+    do
+        echo "$i"
+    done
+}
+
+# Call the function
+print_numbers 5
+
+
+Realtime examples using functions
+=================================
+Example 1: User Management Script
+----------
+
+Scenario: You want to create a script that manages user accounts by adding, deleting, and listing users using functions.
+
+#!/bin/bash
+
+# Function to add a user
+add_user() {
+    local username="$1"
+    local password="$2"
+   sudo useradd -m "$username" && echo "$username:$password"
+    echo "User '$username' added successfully."
+}
+
+# Function to delete a user
+delete_user() {
+    local username="$1"
+    sudo userdel -r "$username"
+    if [ $? -eq 0 ] ; then
+    echo "User '$username' deleted successfully."
+    else
+    echo "Invalid user"
+     fi
+}
+
+# Function to list all users
+list_users() {
+    local users=$(cut -d: -f1 /etc/passwd)
+    echo "List of users:"
+    echo "$users"
+}
+
+# Main script logic
+echo "Choose an option:"
+echo "1. Add a user"
+echo "2. Delete a user"
+echo "3. List all users"
+read -p "Enter your choice: " choice
+
+case $choice in
+    1) read -p "Enter username: " username
+       read -s -p "Enter password: " password
+       add_user "$username" "$password"
+       ;;
+    2) read -p "Enter username to delete: " username
+       delete_user "$username"
+       ;;
+    3) list_users ;;
+    *) echo "Invalid choice. Exiting." ;;
+esac
+
+
+Example 2: Function with Conditional Logic
+---------
+#!/bin/bash
+
+# Function to check if a number is even or odd
+check_even_odd() {
+    local number="$1"
+    if (( number % 2 == 0 )); then
+        echo "$number is even."
+    else
+        echo "$number is odd."
+    fi
+}
+
+# Example usage
+check_even_odd 5
+check_even_odd 10
+
+Example 3: Function with Array Handling
+---------
+#!/bin/bash
+
+# Function to print elements of an array
+print_array() {
+    local arr=("$@")  # Copy all arguments into the array
+    echo "Array elements:"
+    for item in "${arr[@]}"
+    do
+        echo "$item"
+    done
+}
+
+# Example usage with an array
+my_array=("apple" "banana" "cherry" "date")
+print_array "${my_array[@]}"
+
+Example 4: Deleting a file using functions
+---------
+
+#!/bin/bash
+
+# Function to perform a risky operation
+risky_operation() {
+    local file="$1"
+    if [ -f "$file" ]; then
+        echo "Processing file: $file"
+        # Add risky operation here (e.g., deleting file)
+        rm "$file" 
+        echo "$file deleted successfully."
+    else
+        echo "Error: File $file does not exist."
+        return 1
+    fi
+}
+
+# Example usage
+risky_operation "myfile.txt"
+
+
+Example 5: Function to Check Disk Usage
+---------
+
+
+#!/bin/bash
+
+# Function to check disk usage
+check_disk_usage() {
+    local threshold=80  # Threshold percentage
+    local disk_usage=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
+    echo "Disk usage: $disk_usage%"
+
+    if (( disk_usage >= threshold )); then
+        echo "Warning: Disk usage exceeds $threshold%."
+        # Add logic to send alert (e.g., email or notification)
+    else
+        echo "Disk usage within limits."
+    fi
+}
+
+# Example usage
+check_disk_usage
+
+
+Example 6: Function to Calculate Average
+---------
+
+#!/bin/bash
+
+# Function to calculate average of numbers
+calculate_average() {
+    local total=0
+    local count=0
+    for num in "$@"
+    do
+        total=$(( total + num ))
+        (( count++ ))
+    done
+    local average=$(( total / count ))
+    echo "Average: $average"
+}
+
+# Example usage
+calculate_average 10 20 30
+calculate_average 5 15 25 35 45
+
+
+Example 7:  install any package
+---------
+#!/bin/bash
+
+# Function to check and restart service if not running
+install() {
+    local arg="$1"
+   sudo yum install $arg -y
+  
+}
+uninstall()
+ {
+  local arg="$1"
+  sudo yum remove $arg -y
+ }
+
+# Example usage
+uninstall tree
+uninstall wget
+
+
+Example 8: Function for System Information Reporting
+----------
+
+#!/bin/bash
+
+# Function to gather system information
+gather_system_info() {
+    local hostname=$(hostname)
+    local kernel=$(uname -r)# kernel version will displayed
+    local cpu_cores=$(grep "cpu cores" /proc/cpuinfo)
+    local memory=$(free -h |awk '/Mem/{print $7}')
+    local disk_usage=$(df -h / | awk 'NR==2 {print $5}')
+
+    echo "System Information:"
+    echo "Hostname: $hostname"
+    echo "kernel : $kernel"
+    echo "CPU cores: $cpu_cores"
+    echo "Total memory: ${memory}MB"
+    echo "Disk usage: $disk_usage used"
+}
+
+
+gather_system_info
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exit code
+=========
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,293 @@
+shell scripting
+===============
+
+What is shell?
+
+-> shell refers to a user interface that allows users to interact with the operating system (OS) or execute commands. 
+
+-> It acts as a command interpreter, taking commands entered by the user (via a command-line interface or graphical interface) and executing them by communicating with the OS kernel.
+
+-> In most of Linux OS BASH[Bourne Again SHell] is the default shell type.
+
+-> There are other shell programs are there,
+   1. Korn shell
+   2. Bash
+   3. C Shell(csh)
+   4. Z Shell(zsh),, etc
+
+How to check How many shells are there in my Linux server?
+
+cat /etc/shells
+
+How to install csh?
+
+sudo yum install csh -y
+sudo yum install zsh -y
+sudo yum install ksh -y
+
+
+How to check which shell we are using now?
+
+echo $SHELL
+echo $0
+ps -p $$
+
+How switch to another shell?
+step 1: check what are the shells are available
+       cat /etc/shells
+step 2: How to switch to another shell
+      /bin/sh ---> run this
+     ps -p $$
+step 3: come back to bash ---> /bin/bash
+
+  
+===================================
+
+what is shell scripting?
+========================
+--> It is a file , contains collections of commands, What ever the order we specified based on that order it will be executed.
+
+what is the extension for shell scripting?
+ANS:  .sh
+
+Why we need to learn the shell script?
+=======================================
+Ans: To automating the manual tasks.
+
+Is it only for DevOps Engineers?
+Ans: NO
+
+EX: 
+1. serverresourseutilization.sh
+2. dbbackup.sh
+
+
+What are the prerequisites to learn shell scripting?
+=====================================================
+1. Linux commands
+2. Basic programming knowledge[depends]
+3. commitment 
+4. Problem solving skills
+
+How to write a shell script?
+=============================
+vi Demo.sh
+
+#!/bin/bash  --> #! --> shebang line
+echo "Welcome to shellscript KK FUNDA"
+echo "Today date is"
+date
+
+How many ways you are going to run the script?
+==============================================
+1. sh Demo.sh
+2. ./Demo.sh  --> chmod u+x Demo.sh
+3. . Demo.sh
+4. bash Demo.sh
+
+
+How to run the shell script in debug mode?
+===========================================
+Ans: 
+1.  sh -x Demo.sh  ---> It will gives the output as command and output
+
+2.  To run few commands in debug mode.
+set -x  ---> starting point
+echo "Welcome to shellscript KK FUNDA"
+echo "Today date is"
+set +x -----> end point
+date
+
+3. sh -x Demo.sh  ---> From starting it will run debug mode until reaches +x
+
+comments in shell scripting
+===========================
+
+--> comments are essential for improving code readability
+--> documenting your script
+--> explaining the purpose of specific commands or sections
+
+Types of Comments:
+=================
+Single-line Comments:
+---------------------
+
+Single-line comments start with # and extend to the end of the line.
+Example:
+# This is a single-line comment
+
+Inline Comments:
+----------------
+Inline comments are placed at the end of a command line to provide brief explanations.
+Example:
+command1  # This command does something
+
+Multi-line Comments:
+--------------------
+
+Shell scripting does not support native multi-line comments like some other programming languages (e.g., /* */ in C/C++). However, you can achieve a similar effect by commenting out multiple lines using #.
+Example:
+# This is
+# a multi-line
+# comment
+
+<<comment
+comment
+
+In java/terraform/groovy script
+===============================
+// single line comment
+/*
+  multi line comment
+*/
+
+XML
+===
+<!-- 
+
+-->
+
+Variables in shell scripting???????????
+======================================
+Def: variables are used to store data or values that can be referenced and manipulated throughout the script.
+
+Variable Naming and Assignment:
+-------------------------------
+Variable Naming Rules:
+----------------------
+
+-->Variable names can consist of letters (a-z, A-Z), digits (0-9), and underscores (_).
+-->They must start with a letter or an underscore (_).
+-->Variable names are case-sensitive (myVar is different from MYVAR).
+
+Variable Assignment:
+--------------------
+Assign values to variables using = (no spaces around =)
+
+Example:
+myVar="Hello, World!"
+Quotes (" " or ' ') are used to enclose values to preserve spaces and special characters.
+
+
+Accessing Variables:
+---------------------
+
+Use $ followed by the variable name to access its value.
+
+Example:
+echo "The value of myVar is: $myVar"
+
+Variable Expansion:
+-------------------
+Variables are expanded when referenced with $.
+Example:
+name="Alice"
+echo "Hello, $name!"
+
+Concatenation:
+--------------
+Concatenate strings using variables.
+Example:
+greeting="Hello"
+target="World"
+echo "$greeting, $target!"
+
+
+Types of variables
+=================
+Environment Variables[System defined variables]
+-----------------------------------------------
+
+Variables inherited from the shell environment or explicitly exported using export.
+
+env or printenv ---> Used to get the system variables.
+
+echo "Current user: $USER"
+
+expose
+------
+It is a command to override the system defined values.
+EX: echo $HISTSIZE
+    export HISTSIZE=300
+    echo $HISTSIZE
+
+NOTE: It is only for particular session, How to change permanently?
+     ~/.bash_profile
+     export HISTSIZE=300
+
+
+
+
+Local Variables or user defined variables
+-----------------------------------------
+
+Variables defined within a script are local by default and are only accessible within the script.
+
+EX:
+   a=10
+   b=90
+   name="kkfunda"
+
+  echo $a
+  echo $b
+  echo $name
+
+
+
+
+Naming conventions
+==================
+-> file name max limit is 255 characters.
+-> The file name may contain alphabet, numbers, dots and underscore
+-> System commands or Linux reserved words cant be used.
+-> File System is case sensitive.
+ EX:
+     if
+     fi
+     for
+     mkdir
+     pwd
+
+
+
+
+
+
+Command line arguments in shell scripting
+==========================================
+
+Command line arguments in shell scripting allow you to pass arguments or parameters to a script when it is executed from the command line.
+
+Accessing Command Line Arguments:
+----------------------------------
+$0 ---> script name
+$1 ---> First argument
+$2 ---> second argument
+
+Note: If it is more than one number keep it like this ${10}
+
+Ex:
+#!/bin/bash
+echo "Script name: $0"
+echo "First argument: $1"
+echo "Second argument: $2"
+
+sh Demo.sh Prasanth reddy
+
+
+Special Variables:
+------------------
+$#: Number of arguments passed to the script.
+$@: All arguments passed to the script as separate words ("$1" "$2" ...).
+$*: All arguments passed to the script as a single string ("$1 $2 ..." ).
+$$: It will display the process id[PID]
+
+$? ---> Previous command execution status.
+ 0--> previous command execution status is success
+ 127--> Command not found
+
+
+
+
+
+
